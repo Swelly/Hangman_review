@@ -1,13 +1,13 @@
-var guess;
-var SECRET_WORD = "ruby";
-var word = "";
+var guess = "";
+var SECRET_WORD = "ruby".split('');
+var word = [];
 
 var incorrect = [];
 var correct = [];
 
-function DashifyWord () {
+function DashifyWord() {
   for (var i = 0; i < SECRET_WORD.length; i++) {
-    word = word + "_ ";
+    word.push("_");
   }
 }
 
@@ -26,17 +26,23 @@ var scoreBoard = {
 controls.newGameButton.onclick = function () {
   console.log("Start a New Game");
   DashifyWord();
-  scoreBoard.word.innerText = word;
+  scoreBoard.word.innerText = word.join(' ');
 };
 
 controls.guessButton.onclick = function () {
-  console.log("Made a Guess");
   guess = controls.guessBox.value;
+  var letterIndex = SECRET_WORD.indexOf(guess);
 if (SECRET_WORD.indexOf(guess) >= 0) {
   console.log("guess is in secret word");
+  word[letterIndex] = guess;
 } else {
   incorrect.push(guess);
 }
+ UpdateScoreboard();
+};
+
+function UpdateScoreboard () {
   scoreBoard.incorrect.innerText = incorrect.join(', ');
   scoreBoard.guess.innerText = guess;
-};
+  scoreBoard.word.innerText = word.join(' ');
+}
